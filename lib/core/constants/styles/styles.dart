@@ -19,7 +19,12 @@ class AppTextStyles {
     static const TextStyle btnText = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    fontFamily: 'Inter',
+    color: Colors.white,
+  );
+
+   static const TextStyle header = TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.w700,
     color: Colors.white,
   );
 }

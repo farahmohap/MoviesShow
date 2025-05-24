@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:movies_show/features/home_view/screens/home_screen.dart';
 import 'package:movies_show/features/onboarding/screens/onboard_screen.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'API Tester',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const OnboardingScreen(),
+      home: const HomeScreen(),
     );
   }
 }
