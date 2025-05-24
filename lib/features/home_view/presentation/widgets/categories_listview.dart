@@ -11,8 +11,7 @@ class HomeCategoriesListview extends StatefulWidget {
 }
 
 class _HomeCategoriesListviewState extends State<HomeCategoriesListview> {
-  
-    int selectedCategoryIndex = 0;
+  int selectedCategoryIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class _HomeCategoriesListviewState extends State<HomeCategoriesListview> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Center(
-                child: Text(categories[index], style: AppTextStyles.btnText),
+                child: Text(categories[index], style: AppTextStyles.white16w600),
               ),
             ),
           );
@@ -41,7 +40,8 @@ class _HomeCategoriesListviewState extends State<HomeCategoriesListview> {
       ),
     );
   }
-   void _changeCategory(int index) {
+
+  void _changeCategory(int index) {
     setState(() {
       selectedCategoryIndex = index;
     });

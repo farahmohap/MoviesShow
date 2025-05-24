@@ -16,13 +16,19 @@ class AppTextStyles {
     color: Colors.white,
     height: 1.3,
   );
-    static const TextStyle btnText = TextStyle(
+  static const TextStyle white16w600 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
+  
+  static const TextStyle white16w700 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  );
 
-   static const TextStyle header = TextStyle(
+  static const TextStyle header = TextStyle(
     fontSize: 26,
     fontWeight: FontWeight.w700,
     color: Colors.white,

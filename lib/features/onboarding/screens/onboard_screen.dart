@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movies_show/core/constants/assets.dart';
 import 'package:movies_show/core/constants/styles/colors.dart';
 import 'package:movies_show/core/constants/styles/styles.dart';
+import 'package:movies_show/features/home_view/presentation/screens/home_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -15,9 +16,7 @@ class OnboardingScreen extends StatelessWidget {
           SizedBox.expand(
             child: Image.asset(AppAssets.onboarding, fit: BoxFit.cover),
           ),
-
           Container(color: AppColors.black1D.withOpacity(0.5)),
-
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -51,19 +50,27 @@ class OnboardingScreen extends StatelessWidget {
                     style: AppTextStyles.descrption,
                   ),
                   const SizedBox(height: 30),
-                  Container(
-                    width: 314,
-                    height: 43,
-                    decoration: BoxDecoration(
-                      color: AppColors.grey43,
-                      gradient: LinearGradient(
-                        colors: [AppColors.primary, AppColors.primaryDark],
+                  InkWell(
+                    onTap:
+                        () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                        ),
+                    child: Container(
+                      width: 314,
+                      height: 43,
+                      decoration: BoxDecoration(
+                        color: AppColors.grey43,
+                        gradient: LinearGradient(
+                          colors: [AppColors.primary, AppColors.primaryDark],
+                        ),
+                        borderRadius: BorderRadius.circular(60),
                       ),
-                      borderRadius: BorderRadius.circular(60),
-                    ),
 
-                    child: Center(
-                      child: Text('Acessar', style: AppTextStyles.btnText),
+                      child: Center(
+                        child: Text('Acessar', style: AppTextStyles.white16w600),
+                      ),
                     ),
                   ),
 

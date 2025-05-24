@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:movies_show/features/home_view/screens/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_show/core/networking/api_service.dart';
+import 'package:movies_show/features/home_view/data/data_sources/movie_remote_datasource.dart';
+import 'package:movies_show/features/home_view/data/repos/movie_repo_impl.dart';
+import 'package:movies_show/features/home_view/domain/use_cases.dart/movie_usecase.dart';
+import 'package:movies_show/features/home_view/presentation/logic/get_movies_cubit.dart';
+import 'package:movies_show/features/home_view/presentation/screens/home_screen.dart';
+import 'package:movies_show/features/home_view/presentation/widgets/category_movies_listview.dart';
+import 'package:movies_show/features/movie_details/presentation/screens/movie_details.dart';
 import 'package:movies_show/features/onboarding/screens/onboard_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  final apiService = ApiServiceImpl();
+  final remoteDataSource = MovieRemoteDataSourceImpl(apiService);
+  final repository = MovieRepositoryImpl(remoteDataSource);
+  final getPopularMoviesUseCase = GetPopularMoviesUseCase(repository);
+
+  runApp(MyApp(getPopularMoviesUseCase: getPopularMoviesUseCase));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final GetPopularMoviesUseCase getPopularMoviesUseCase;
+
+  const MyApp({super.key, required this.getPopularMoviesUseCase});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +31,10 @@ class MyApp extends StatelessWidget {
       title: 'API Tester',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomeScreen(),
+      home: BlocProvider(
+        create: (_) => MovieCubit(getPopularMoviesUseCase)..fetchPopularMovies(),
+        child: const HomeScreen(),
+      ),
     );
   }
 }
