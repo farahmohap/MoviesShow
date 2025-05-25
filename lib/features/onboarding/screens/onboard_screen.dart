@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:movies_show/core/constants/assets.dart';
 import 'package:movies_show/core/constants/styles/colors.dart';
 import 'package:movies_show/core/constants/styles/styles.dart';
+import 'package:movies_show/core/service_locator.dart';
+import 'package:movies_show/features/home_view/presentation/logic/get_movies_cubit.dart';
 import 'package:movies_show/features/home_view/presentation/screens/home_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -54,7 +57,14 @@ class OnboardingScreen extends StatelessWidget {
                     onTap:
                         () => Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder:
+                                (context) => BlocProvider(
+                                  create:
+                                      (_) =>
+                                          getIt<MovieCubit>()
+                                            ..fetchPopularMovies(),
+                                  child: HomeScreen(),
+                                ),
                           ),
                         ),
                     child: Container(
@@ -69,7 +79,10 @@ class OnboardingScreen extends StatelessWidget {
                       ),
 
                       child: Center(
-                        child: Text('Acessar', style: AppTextStyles.white16w600),
+                        child: Text(
+                          'Acessar',
+                          style: AppTextStyles.white16w600,
+                        ),
                       ),
                     ),
                   ),

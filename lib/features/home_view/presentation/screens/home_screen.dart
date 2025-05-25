@@ -1,26 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_show/core/constants/assets.dart';
 import 'package:movies_show/core/constants/styles/colors.dart';
 import 'package:movies_show/core/constants/styles/styles.dart';
-import 'package:movies_show/features/home_view/presentation/logic/get_movies_cubit.dart';
 import 'package:movies_show/features/home_view/presentation/widgets/categories_listview.dart';
 import 'package:movies_show/features/home_view/presentation/widgets/category_movies_listview.dart';
 import 'package:movies_show/features/home_view/presentation/widgets/custom_search_bar.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<MovieCubit>().fetchPopularMovies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,6 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 20),
                 HomeCategoriesListview(),
                 const SizedBox(height: 20),
+                Text(
+                  ' Mais populares',
+                  style: AppTextStyles.header.copyWith(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 10),
+
                 CategoeyMoviesListView(),
               ],
             ),
