@@ -47,7 +47,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                     Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 100),
-                        child: ListViewSkeletonizer(),
+                        child: CircularProgressIndicator(),
                       ),
                     )
                   else if (state is MovieDetailError)
@@ -111,7 +111,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                                         SizedBox(width: 5),
                                         SvgPicture.asset(AppAssets.clockIcon),
                                         Text(
-                                          ' ${formatDuration(state.movie!.runtime)} min',
+                                          ' ${formatDuration(state.movie!.runtime)}',
                                           style: AppTextStyles.descrption
                                               .copyWith(
                                                 color: Color(0xbbbbbbbb),

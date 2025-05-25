@@ -8,22 +8,26 @@ class ListViewSkeletonizer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 350,
-              width: 300,
-              decoration: BoxDecoration(
-                color: AppColors.grey43,
-                borderRadius: BorderRadius.circular(10),
+      child: SizedBox(
+        height: 350,
+        width: 250,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 350,
+                width: 250,
+                decoration: BoxDecoration(
+                  color: AppColors.greyCC,
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-            ),
-          );
-        },
-        itemCount: 10,
+            );
+          },
+          itemCount: 10,
+        ),
       ),
     );
   }
