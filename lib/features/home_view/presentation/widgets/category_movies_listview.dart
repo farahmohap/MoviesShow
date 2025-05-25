@@ -1,13 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_show/core/networking/api_constants.dart';
+import 'package:movies_show/core/service_locator.dart';
 import 'package:movies_show/features/home_view/domain/entities/movie_entity.dart';
 import 'package:movies_show/features/home_view/presentation/logic/get_movies_cubit.dart';
 import 'package:movies_show/features/home_view/presentation/logic/get_movies_states.dart';
+import 'package:movies_show/features/movie_details/presentation/screens/logic/movie_detail_cubit.dart';
+import 'package:movies_show/features/movie_details/presentation/screens/movie_details.dart';
 
 class CategoeyMoviesListView extends StatelessWidget {
   const CategoeyMoviesListView({super.key});
-
-  static const String _imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +33,36 @@ class CategoeyMoviesListView extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child:
                       posterPath != null
-                          ? ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              '$_imageBaseUrl$posterPath',
-                              fit: BoxFit.cover,
-                              width: 150,
-                              height: 250,
-                              errorBuilder:
-                                  (context, error, stackTrace) =>
-                                      const Icon(Icons.broken_image, size: 50),
+                          ? InkWell(
+                            onTap: () {
+                              log(movies[index].id.toString());
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => BlocProvider(
+                                        create:
+                                            (context) =>
+                                                getIt<MovieDetailCubit>(),
+                                        child: MovieDetailScreen(
+                                          movieId: movies[index].id,
+                                        ),
+                                      ),
+                                ),
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                '${ApiConstants.imageBaseUrl}$posterPath',
+                                fit: BoxFit.cover,
+                                width: 150,
+                                height: 250,
+                                errorBuilder:
+                                    (context, error, stackTrace) => const Icon(
+                                      Icons.broken_image,
+                                      size: 50,
+                                    ),
+                              ),
                             ),
                           )
                           : const Icon(Icons.image_not_supported),

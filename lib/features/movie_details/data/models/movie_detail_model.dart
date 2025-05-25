@@ -7,6 +7,7 @@ class MovieDetailModel extends MovieDetailEntity {
     required super.overview,
     required super.runtime,
     required super.voteAverage,
+    required super.releaseDate,
   });
 
   factory MovieDetailModel.fromJson(Map<String, dynamic> json) {
@@ -16,6 +17,7 @@ class MovieDetailModel extends MovieDetailEntity {
       overview: json['overview'] ?? '',
       runtime: json['runtime'] ?? 0,
       voteAverage: (json['vote_average'] ?? 0).toDouble(),
+      releaseDate: json['release_date'] ?? '',
     );
   }
 }
