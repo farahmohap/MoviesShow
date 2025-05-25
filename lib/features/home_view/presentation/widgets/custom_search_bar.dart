@@ -5,7 +5,9 @@ import 'package:movies_show/core/constants/styles/colors.dart';
 import 'package:movies_show/core/constants/styles/styles.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({super.key});
+  final ValueChanged<String> onSearch; 
+  
+  const CustomSearchBar({super.key, required this.onSearch}); 
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +17,23 @@ class CustomSearchBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.black6B,
         borderRadius: BorderRadius.circular(60),
+        boxShadow: [ 
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          SvgPicture.asset(AppAssets.searchIcon), 
+          SizedBox(width: 12), 
           Expanded(
             child: TextField(
+              onSubmitted: onSearch, 
               decoration: InputDecoration(
                 hintText: 'Buscar',
-                fillColor: AppColors.pink8A,
                 border: InputBorder.none,
                 hintStyle: AppTextStyles.descrption.copyWith(
                   color: AppColors.greyCC,
@@ -31,8 +41,6 @@ class CustomSearchBar extends StatelessWidget {
               ),
             ),
           ),
-
-          SvgPicture.asset(AppAssets.searchIcon),
         ],
       ),
     );
