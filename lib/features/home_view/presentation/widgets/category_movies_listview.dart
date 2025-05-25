@@ -13,7 +13,7 @@ class CategoeyMoviesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 400,
-      height: 250,
+      height: 400,
       child: BlocBuilder<MovieCubit, MovieState>(
         builder: (context, state) {
           if (state is MovieLoading) {

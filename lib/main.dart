@@ -8,22 +8,39 @@ import 'package:movies_show/features/home_view/domain/use_cases.dart/movie_useca
 import 'package:movies_show/features/home_view/presentation/logic/get_movies_cubit.dart';
 import 'package:movies_show/features/home_view/presentation/screens/home_screen.dart';
 import 'package:movies_show/features/home_view/presentation/widgets/category_movies_listview.dart';
+import 'package:movies_show/features/movie_details/data/datasource/movie_detail_datasource.dart';
+import 'package:movies_show/features/movie_details/data/repos/movie_detail_repo_impl.dart';
+import 'package:movies_show/features/movie_details/domain/usecases/get_movie_detail_usecase.dart';
+import 'package:movies_show/features/movie_details/presentation/screens/logic/movie_detail_cubit.dart';
 import 'package:movies_show/features/movie_details/presentation/screens/movie_details.dart';
 import 'package:movies_show/features/onboarding/screens/onboard_screen.dart';
 
 void main() {
   final apiService = ApiServiceImpl();
   final remoteDataSource = MovieRemoteDataSourceImpl(apiService);
-  final repository = MovieRepositoryImpl(remoteDataSource);
-  final getPopularMoviesUseCase = GetPopularMoviesUseCase(repository);
 
-  runApp(MyApp(getPopularMoviesUseCase: getPopularMoviesUseCase));
+  final remoteDataSource2= MovieDetailRemoteDataSourceImpl(apiService);
+  final repository = MovieRepositoryImpl(remoteDataSource);
+  final repository2 = MovieDetailRepositoryImpl(remoteDataSource2);
+
+  final getPopularMoviesUseCase = GetPopularMoviesUseCase(repository);
+  final getMovieDetailUseCase = GetMovieDetailUseCase(repository2);
+
+  runApp(MyApp(
+    getPopularMoviesUseCase: getPopularMoviesUseCase,
+    getMovieDetailUseCase: getMovieDetailUseCase,
+  ));
 }
 
 class MyApp extends StatelessWidget {
   final GetPopularMoviesUseCase getPopularMoviesUseCase;
+  final GetMovieDetailUseCase getMovieDetailUseCase;
 
-  const MyApp({super.key, required this.getPopularMoviesUseCase});
+  const MyApp({
+    super.key,
+    required this.getPopularMoviesUseCase,
+    required this.getMovieDetailUseCase,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +48,16 @@ class MyApp extends StatelessWidget {
       title: 'API Tester',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: BlocProvider(
-        create: (_) => MovieCubit(getPopularMoviesUseCase)..fetchPopularMovies(),
-        child: const HomeScreen(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => MovieCubit(getPopularMoviesUseCase)..fetchPopularMovies(),
+          ),
+          BlocProvider(
+            create: (_) => MovieDetailCubit(getMovieDetailUseCase)..fetchMovieDetail(1297028),
+          ),
+        ],
+        child: const MovieDetailScreen(movieId: 1297028),
       ),
     );
   }

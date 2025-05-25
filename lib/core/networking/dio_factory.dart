@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:movies_show/core/networking/api_constants.dart';
+import 'package:movies_show/core/networking/api_interceptors.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
@@ -16,15 +17,19 @@ class DioFactory {
     _addInterceptors();
   }
 
- void _addInterceptors() {
-    _dio.interceptors.add(PrettyDioLogger(
-      requestHeader: true,
-      requestBody: true,
-      responseHeader: false,
-      responseBody: true,
-      error: true,
-      compact: false,
-      maxWidth: 90,
-    ));
+  void _addInterceptors() {
+    _dio.interceptors.add(ApiInterceptors());
+
+    _dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: false,
+        responseBody: true,
+        error: true,
+        compact: false,
+        maxWidth: 90,
+      ),
+    );
   }
 }
