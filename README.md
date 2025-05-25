@@ -3,15 +3,18 @@
 A new Flutter project.
 
 ## Getting Started
+## Merge Conflict Resolution - Search Bar
 
-This project is a starting point for a Flutter application.
+**Conflict Points:**
+- Constructor parameters (callback vs controller)
+- Layout structure (icon position)
+- Visual styling (height, padding, shadow)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# MoviesShow
+**Resolution:**
+1. Kept both callback and controller parameters
+2. Used the left-aligned icon layout from develop
+3. Combined styling improvements from both branches:
+   - Height from main
+   - Box shadow from develop
+   - Opacity from main
+4. Used the more descriptive hint text from main
