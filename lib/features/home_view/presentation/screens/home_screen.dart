@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                CustomSearchBar(onSearch: (String value) {}),
+                const CustomSearchBar(),
                 const SizedBox(height: 20),
                 HomeCategoriesListview(),
                 const SizedBox(height: 20),

@@ -22,7 +22,7 @@ class CategoeyMoviesListView extends StatelessWidget {
       child: BlocBuilder<MovieCubit, MovieState>(
         builder: (context, state) {
           if (state is MovieLoading) {
-            return const Center(child: ListViewSkeletonizer());
+            return ListViewSkeletonizer();
           } else if (state is MovieSuccess) {
             final List<MovieEntity> movies = state.movies;
 
