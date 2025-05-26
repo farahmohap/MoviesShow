@@ -10,10 +10,8 @@ import 'package:movies_show/core/networking/api_constants.dart';
 import 'package:movies_show/core/shared_widgets/image_skeletonizer.dart';
 import 'package:movies_show/features/movie_details/presentation/logic/movie_detail_cubit.dart';
 import 'package:movies_show/features/movie_details/presentation/logic/movie_detail_state.dart';
-import 'package:movies_show/features/movie_details/presentation/widgets/recommendations_listview.dart';
 import 'package:movies_show/features/movie_details/presentation/widgets/trailer_button.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieDetailScreen extends StatefulWidget {
   final int movieId;
@@ -25,13 +23,13 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   final cubit = context.read<MovieDetailCubit>();
-  //   cubit.fetchMovieDetail(widget.movieId);
-  //   cubit.fetchRecommendationMovies(widget.movieId);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<MovieDetailCubit>();
+    cubit.fetchMovieDetail(widget.movieId);
+    cubit.fetchRecommendationMovies(widget.movieId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +37,15 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       backgroundColor: AppColors.black2E,
       body: BlocBuilder<MovieDetailCubit, MovieDetailState>(
         builder: (context, state) {
+          final cubit = context.read<MovieDetailCubit>();
+          
           return CustomScrollView(
             slivers: [
-              customSliverAppBar(state, context),
+              _buildSliverAppBar(cubit, state),
               SliverList(
                 delegate: SliverChildListDelegate([
                   if (state is MovieDetailLoading)
-                    Center(
+                    const Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 100),
                         child: CircularProgressIndicator(),
@@ -58,8 +58,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         child: Text(state.message),
                       ),
                     )
-                  else if (state is MovieDetailLoaded)
-                    successStateBody(state),
+                  else if (state is MovieDetailLoaded && cubit.movie != null)
+                    _buildMovieContent(cubit),
                 ]),
               ),
             ],
@@ -69,7 +69,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     );
   }
 
-  Padding successStateBody(MovieDetailLoaded state) {
+  Widget _buildMovieContent(MovieDetailCubit cubit) {
+    final movie = cubit.movie!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -80,12 +81,11 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
               CircularPercentIndicator(
                 radius: 30.0,
                 lineWidth: 7.0,
-                percent:
-                    (state.movie!.voteAverage * 0.1).clamp(0, 1).toDouble(),
+                percent: (movie.voteAverage * 0.1).clamp(0, 1).toDouble(),
                 center: CircleAvatar(
-                  backgroundColor: Color(0xff15161D),
+                  backgroundColor: const Color(0xff15161D),
                   child: Text(
-                    "${(state.movie!.voteAverage * 10).toInt()}%",
+                    "${(movie.voteAverage * 10).toInt()}%",
                     style: AppTextStyles.white16w600,
                   ),
                 ),
@@ -93,36 +93,36 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 backgroundColor: AppColors.grey43,
                 circularStrokeCap: CircularStrokeCap.round,
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.movie!.title,
+                      movie.title,
                       style: AppTextStyles.header,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Row(
                       children: [
                         Text(
-                          ' ${convertToBrazilianDate(state.movie!.releaseDate)}',
+                          ' ${convertToBrazilianDate(movie.releaseDate)}',
                           style: AppTextStyles.descrption.copyWith(
-                            color: Color(0xbbbbbbbb),
+                            color: const Color(0xbbbbbbbb),
                           ),
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Icon(
                           Icons.circle,
                           size: 5,
                           color: Colors.grey.shade400,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         SvgPicture.asset(AppAssets.clockIcon),
                         Text(
-                          ' ${formatDuration(state.movie!.runtime)}',
+                          ' ${formatDuration(movie.runtime)}',
                           style: AppTextStyles.descrption.copyWith(
-                            color: Color(0xbbbbbbbb),
+                            color: const Color(0xbbbbbbbb),
                           ),
                         ),
                       ],
@@ -133,7 +133,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          Divider(
+          const Divider(
             color: AppColors.black1D,
             endIndent: 4,
             indent: 4,
@@ -141,10 +141,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           ),
           const SizedBox(height: 20),
           Text(
-            state.movie!.overview,
-            style: AppTextStyles.descrption.copyWith(color: Color(0xffcccccc)),
+            movie.overview,
+            style: AppTextStyles.descrption.copyWith(color: const Color(0xffcccccc)),
           ),
-          TrailerButton(),
+          const TrailerButton(),
           const SizedBox(height: 20),
           Text(
             'Recomendações',
@@ -154,27 +154,56 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          RecommendationsListview(
-            movieId: widget.movieId,
-            onMovieTap: (newMovieId) {
-              context.read<MovieDetailCubit>().fetchMovieDetail(newMovieId);
-              context.read<MovieDetailCubit>().fetchRecommendationMovies(
-                newMovieId,
-              );
-            },
-          ),
+          _buildRecommendations(cubit),
         ],
       ),
     );
   }
 
-  SliverAppBar customSliverAppBar(
-    MovieDetailState state,
-    BuildContext context,
-  ) {
+  Widget _buildRecommendations(MovieDetailCubit cubit) {
+    if (cubit.recommendations == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (cubit.recommendations!.isEmpty) {
+      return const Center(child: Text('No recommendations available'));
+    }
+    
+    return SizedBox(
+      height: 250,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: cubit.recommendations!.length,
+        itemBuilder: (context, index) {
+          final movie = cubit.recommendations![index];
+          return GestureDetector(
+            onTap: () {
+              final newCubit = context.read<MovieDetailCubit>();
+              newCubit.fetchMovieDetail(movie.id);
+              newCubit.fetchRecommendationMovies(movie.id);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  '${ApiConstants.imageBaseUrl}${movie.posterPath}',
+                  fit: BoxFit.cover,
+                  width: 150,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.broken_image, size: 50),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  SliverAppBar _buildSliverAppBar(MovieDetailCubit cubit, MovieDetailState state) {
     return SliverAppBar(
       title: Text(
-        state is MovieDetailLoaded ? state.movie!.title : ' ',
+        cubit.movie?.title ?? ' ',
         style: AppTextStyles.white16w700,
       ),
       leading: IconButton(
@@ -182,7 +211,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         onPressed: () => Navigator.of(context).pop(),
       ),
       centerTitle: false,
-      actionsPadding: EdgeInsets.only(right: 16),
+      actionsPadding: const EdgeInsets.only(right: 16),
       actions: [
         CircleAvatar(
           backgroundColor: AppColors.grey43.withOpacity(.5),
@@ -194,14 +223,13 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       floating: false,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        background:
-            state is MovieDetailLoaded
-                ? Image.network(
-                  '${ApiConstants.imageBaseUrl}${state.movie!.posterPath}',
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => ImageSkeletonizer(),
-                )
-                : ImageSkeletonizer(),
+        background: cubit.movie?.posterPath != null
+            ? Image.network(
+                '${ApiConstants.imageBaseUrl}${cubit.movie!.posterPath}',
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => const ImageSkeletonizer(),
+              )
+            : const ImageSkeletonizer(),
       ),
       backgroundColor: Colors.transparent,
     );

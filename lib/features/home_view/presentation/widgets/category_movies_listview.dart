@@ -40,13 +40,7 @@ class CategoeyMoviesListView extends StatelessWidget {
                         MaterialPageRoute(
                           builder:
                               (context) => BlocProvider(
-                                create:
-                                    (context) =>
-                                        getIt<MovieDetailCubit>()
-                                          ..fetchMovieDetail(movies[index].id)
-                                          ..fetchRecommendationMovies(
-                                            movies[index].id,
-                                          ),
+                                create: (context) => getIt<MovieDetailCubit>(),
                                 child: MovieDetailScreen(
                                   movieId: movies[index].id,
                                 ),

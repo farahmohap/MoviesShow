@@ -1,27 +1,20 @@
-import 'package:movies_show/features/home_view/domain/entities/movie_entity.dart';
-import 'package:movies_show/features/movie_details/domain/entities/movie_detail_entity.dart';
-
 abstract class MovieDetailState {
-  final MovieDetailEntity? movie;
-  final List<MovieEntity>? recommendations;
-
-  const MovieDetailState({this.movie, this.recommendations});
+  const MovieDetailState();
 }
 
 class MovieDetailInitial extends MovieDetailState {
-  const MovieDetailInitial() : super();
+  const MovieDetailInitial();
 }
 
 class MovieDetailLoading extends MovieDetailState {
-  const MovieDetailLoading({super.movie, super.recommendations});
+  const MovieDetailLoading();
 }
 
 class MovieDetailLoaded extends MovieDetailState {
-  const MovieDetailLoaded(MovieDetailEntity movie, {super.recommendations})
-      : super(movie: movie);
+  const MovieDetailLoaded();
 }
 
 class MovieDetailError extends MovieDetailState {
   final String message;
-  const MovieDetailError(this.message, {super.movie, super.recommendations});
+  const MovieDetailError(this.message);
 }
