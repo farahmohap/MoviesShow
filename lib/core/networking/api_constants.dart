@@ -7,5 +7,5 @@ class ApiConstants {
 
   // Endpoints
   static const String popularMovies = '/movie/popular';
-static const String movieDetailsBase = '/movie';
+  static const String movieDetailsBase = '/movie';
 }

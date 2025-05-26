@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:movies_show/core/constants/assets.dart';
+import 'package:movies_show/core/constants/app_assets.dart';
 import 'package:movies_show/core/constants/styles/colors.dart';
 import 'package:movies_show/core/constants/styles/styles.dart';
 

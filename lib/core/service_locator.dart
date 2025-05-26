@@ -9,15 +9,15 @@ import 'package:movies_show/features/movie_details/data/datasource/movie_detail_
 import 'package:movies_show/features/movie_details/data/repos/movie_detail_repo_impl.dart';
 import 'package:movies_show/features/movie_details/domain/repos/movie_detail_repo.dart';
 import 'package:movies_show/features/movie_details/domain/usecases/get_movie_detail_usecase.dart';
-import 'package:movies_show/features/movie_details/presentation/screens/logic/movie_detail_cubit.dart';
+import 'package:movies_show/features/movie_details/presentation/logic/movie_detail_cubit.dart';
 
 final getIt = GetIt.instance;
 
 void setupServiceLocator() {
-  // ✅ Core
+  // Core
   getIt.registerLazySingleton<ApiService>(() => ApiServiceImpl());
 
-  // ✅ DataSources
+  // DataSources
   getIt.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSourceImpl(getIt()),
   );
@@ -26,7 +26,7 @@ void setupServiceLocator() {
     () => MovieDetailRemoteDataSourceImpl(getIt()),
   );
 
-  // ✅ Repositories registered as abstract types
+  // Repositories 
   getIt.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(getIt()),
   );
@@ -35,7 +35,7 @@ void setupServiceLocator() {
     () => MovieDetailRepositoryImpl(getIt()),
   );
 
-  // ✅ UseCases
+  // UseCases
   getIt.registerLazySingleton<GetPopularMoviesUseCase>(
     () => GetPopularMoviesUseCase(getIt()),
   );
@@ -44,7 +44,7 @@ void setupServiceLocator() {
     () => GetMovieDetailUseCase(getIt()),
   );
 
-  // ✅ Cubits
+  // Cubits
   getIt.registerFactory(() => MovieCubit(getIt()));
   getIt.registerFactory(() => MovieDetailCubit(getIt()));
 }

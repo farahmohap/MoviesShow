@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:movies_show/core/networking/api_constants.dart';
 import 'package:movies_show/core/networking/api_service.dart';
 import 'package:movies_show/features/home_view/data/models/movie_model.dart';

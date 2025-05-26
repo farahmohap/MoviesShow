@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:movies_show/core/error/failure.dart';
 import 'package:movies_show/features/home_view/domain/entities/movie_entity.dart';
 import 'package:movies_show/features/movie_details/data/datasource/movie_detail_datasource.dart';
@@ -16,8 +17,12 @@ class MovieDetailRepositoryImpl implements MovieDetailRepository {
       final movie = await remoteDataSource.getMovieDetail(movieId);
       return Right(movie);
     } catch (e, stack) {
-      print('❌ Error in repository: $e');
-      print('🧵 Stack trace: $stack');
+      if (kDebugMode) {
+        print('Error in repository: $e');
+      }
+      if (kDebugMode) {
+        print('Stack trace: $stack');
+      }
       return Left(ServerFailure('Failed to fetch movie details'));
     }
   }
@@ -28,8 +33,12 @@ class MovieDetailRepositoryImpl implements MovieDetailRepository {
       final movie = await remoteDataSource.getRecommendationMovies(movieId);
       return Right(movie);
     } catch (e, stack) {
-      print('❌ Error in repository: $e');
-      print('🧵 Stack trace: $stack');
+      if (kDebugMode) {
+        print('Error in repository: $e');
+      }
+      if (kDebugMode) {
+        print('Stack trace: $stack');
+      }
       return Left(ServerFailure('Failed to fetch movie details'));
     }
   }

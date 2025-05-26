@@ -17,8 +17,8 @@ class MovieDetailLoading extends MovieDetailState {
 }
 
 class MovieDetailLoaded extends MovieDetailState {
-  const MovieDetailLoaded(MovieDetailEntity movie, {List<MovieEntity>? recommendations})
-      : super(movie: movie, recommendations: recommendations);
+  const MovieDetailLoaded(MovieDetailEntity movie, {super.recommendations})
+      : super(movie: movie);
 }
 
 class MovieDetailError extends MovieDetailState {

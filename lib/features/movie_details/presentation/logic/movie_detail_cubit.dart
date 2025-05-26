@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_show/features/movie_details/domain/usecases/get_movie_detail_usecase.dart';
-import 'package:movies_show/features/movie_details/presentation/screens/logic/movie_detail_state.dart';
+import 'package:movies_show/features/movie_details/presentation/logic/movie_detail_state.dart';
 
 class MovieDetailCubit extends Cubit<MovieDetailState> {
   final GetMovieDetailUseCase useCase;

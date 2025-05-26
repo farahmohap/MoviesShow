@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_show/core/constants/assets.dart';
+import 'package:movies_show/core/constants/app_assets.dart';
 import 'package:movies_show/core/constants/styles/colors.dart';
 import 'package:movies_show/core/constants/styles/styles.dart';
 import 'package:movies_show/features/home_view/presentation/widgets/categories_listview.dart';
@@ -49,7 +49,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 CategoeyMoviesListView(),
               ],
             ),
